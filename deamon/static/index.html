@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>打卡酱</title>
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/static/style.min.css" rel="stylesheet">
+    <style type="text/css"></style>
+  </head>
+
+  <body>
+    <div class="lyear-layout-web">
+      <div class="lyear-layout-container">
+        <header class="lyear-layout-header">
+          <nav class="navbar navbar-default">
+            <div class="topbar">
+              <div class="topbar-left">
+                <span class="navbar-page-title">打卡酱</span>
+              </div>
+        </header>
+        <main class="lyear-layout-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>打卡酱信息填写</h4>
+                  </div>
+                  <div class="card-body">
+                    <small class="help-block">注意: 请不要分享您的神秘代码或是填写链接。同一个神秘代码或链接下，重复提交将导致配置文件被覆盖。</small>
+                    <small class="help-block">另请按自身真实信息如实填写健康申报，在情况发生改变时即使修改。本站不对您填写的虚假信息负责。</small>
+                    <form id="theRealForm" class="form-horizontal" onsubmit="return false;" action="##" method="post">
+                      <div class="form-group">
+                        <label class="col-xs-12" for="key">神秘代码</label>
+                        <div class="col-xs-12">
+                          <input class="form-control" type="text" id="key" name="key" maxlength="32" placeholder="请在此处填写您的神秘代码" oninput="checkKey();">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-xs-12" for="count">剩余次数</label>
+                        <div class="col-xs-12">
+                          <div class="form-control-static" id="count">-1</div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-xs-12" for="username">学号</label>
+                        <div class="col-xs-12">
+                          <input class="form-control" type="text" id="username" name="username" placeholder="1922441234" oninput="checkMain();" onchange="testLogin();">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-xs-12" for="password">“我的金科院”密码</label>
+                        <div class="col-xs-12">
+                          <input class="form-control" type="password" id="password" name="password" placeholder="******" oninput="checkMain();" onchange="testLogin();">
+                          <small class="help-block" id="upmsg"></small>
+                        </div>
+                      </div>
+                      <small class="help-block" id="message"></small>
+                      <div class="form-group">
+                        <label class="col-xs-12" for="email">通知邮箱</label>
+                        <div class="col-xs-12">
+                          <input class="form-control" type="email" id="email" name="email" placeholder="exampl@qq.com" oninput="checkMain();" onchange="testEMail();">
+                          <small class="help-block" id="emmsg"></small>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-xs-12">是否异常（超过37.3℃）</label>
+                        <div class="col-xs-12">
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_SFYC-1">
+                        <input type="radio" id="DZ_SFYC-1" name="DZ_SFYC" value="YES"><span>是</span></label>
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_SFYC-2">
+                        <input type="radio" id="DZ_SFYC-2" name="DZ_SFYC" value="NO" checked><span>否</span></label>
+                        </div>
+                      </div>
+                      <!--<div class="form-group">
+                        <label class="col-xs-12">本人近14天内到访过的疫情严重地区</label>
+                        <div class="col-xs-12">
+                          太复杂了仿造不出QwQ. 得了病麻烦手动去填报一下...
+                        </div>
+                      </div>-->
+                      <div class="form-group">
+                        <label class="col-xs-12">宁归来健康码（或苏康码）</label>
+                        <div class="col-xs-12">
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_NGLJKM-1">
+                        <input type="radio" id="DZ_NGLJKM-1" name="DZ_NGLJKM" value="1" checked><span>绿色</span></label>
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_NGLJKM-2">
+                        <input type="radio" id="DZ_NGLJKM-2" name="DZ_NGLJKM" value="2"><span>黄色</span></label>
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_NGLJKM-3">
+                        <input type="radio" id="DZ_NGLJKM-3" name="DZ_NGLJKM" value="3"><span>红色</span></label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-xs-12">14天内是否去过南京以外城市</label>
+                        <div class="col-xs-12">
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_SFQGNJYWCS-1">
+                        <input type="radio" id="DZ_SFQGNJYWCS-1" name="DZ_SFQGNJYWCS" value="YES" checked><span>是</span></label>
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_SFQGNJYWCS-2">
+                        <input type="radio" id="DZ_SFQGNJYWCS-2" name="DZ_SFQGNJYWCS" value="NO"><span>否</span></label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-xs-12">手机查询最近14天漫游地</label>
+                        <div class="col-xs-12">
+                          <input class="form-control" type="text" id="DZ_ZJMYD" name="DZ_ZJMYD" placeholder="南京市" value="南京市">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-xs-12">次日是否返校</label>
+                        <div class="col-xs-12">
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_CRSFFX-1">
+                        <input type="radio" id="DZ_CRSFFX-1" name="DZ_CRSFFX" value="YES"><span>是</span></label>
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_CRSFFX-2">
+                        <input type="radio" id="DZ_CRSFFX-2" name="DZ_CRSFFX" value="NO" checked><span>否</span></label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-xs-12">是否在南京</label>
+                        <div class="col-xs-12">
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_SFZNJ-1">
+                        <input type="radio" id="DZ_SFZNJ-1" name="DZ_SFZNJ" value="YES" checked><span>是</span></label>
+                          <label class="lyear-radio radio-inline radio-primary" for="DZ_SFZNJ-2">
+                        <input type="radio" id="DZ_SFZNJ-2" name="DZ_SFZNJ" value="NO"><span>否</span></label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-xs-12">所在地</label>
+                        <div class="col-xs-12">
+                          如需更新, 麻烦手动填报第一次。
+                        </div>
+                      </div>
+
+                      <div class="modal fade bs-result-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                        <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                              <h4 class="modal-title" id="msgBoxLabel">提交结果</h4>
+                            </div>
+                            <div class="modal-body" id="resultBox">
+                              正在提交...
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-xs-12">续期码</label>
+                        <div class="col-xs-12">
+                          <input class="form-control" type="text" id="extend" name="extend" maxlength="32" placeholder="将续期码复制至此将自动续期" oninput="checkExtend();">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-xs-12">
+                          <button class="btn btn-primary" data-toggle="modal" data-target=".bs-result-modal-sm" type="submit" onclick="submitF();">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+        </main>
+        </div>
+        </div>
+        <script type="text/javascript" src="/static/jquery.min.js"></script>
+        <script type="text/javascript" src="/static/bootstrap.min.js"></script>
+        <script type="text/javascript">
+          function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+              var pair = vars[i].split("=");
+              if (pair[0] == variable) {
+                return pair[1];
+              }
+            }
+            return "";
+          }
+
+          function submitF() {
+            mb = document.getElementById('resultBox');
+            if (!keyOK)
+              checkKey();
+            if (!mainOK)
+              checkMain();
+            if (!accountOK)
+              testLogin();
+            if (!emailOK)
+              testEMail();
+            if (!(keyOK && mainOK && accountOK && emailOK)) {
+              mb.innerText = '提交失败... 请先完善标红了的内容.'
+              return false;
+            }
+            document.getElementById('key').disabled = false;
+            document.getElementById('username').disabled = false;
+            document.getElementById('password').disabled = false;
+            document.getElementById('email').disabled = false;
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', '/daily/api/v1.0/settings/mod');
+            var fd = new FormData(document.getElementById('theRealForm'));
+            httpRequest.onreadystatechange = function() {
+              if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                json = JSON.parse(httpRequest.responseText);
+                console.log(json);
+                if (json['status'] === true) {
+                  mb.innerText = '提交成功!';
+                  setInfo();
+                } else {
+                  mb.innerText = '提交失败...';
+                  setInfo();
+                }
+                document.getElementById('key').disabled = true;
+                document.getElementById('username').disabled = true;
+                document.getElementById('password').disabled = true;
+                document.getElementById('email').disabled = true;
+              }
+            };
+
+            httpRequest.send(fd);
+            return false;
+          }
+
+          function checkKey() {
+            keyElem = document.getElementById('key');
+            if (keyElem.value.length === 32 && !keyOK) {
+              keyElem.parentElement.parentElement.className = "form-group has-info";
+              key = keyElem.value;
+              keyElem.disabled = true
+              testKey();
+            }
+          }
+
+          function checkMain() {
+            mainOK = true;
+            unElem = document.getElementById('username');
+            if (unElem.value == '') {
+              unElem.parentElement.parentElement.className = "form-group has-error";
+              mainOK = false;
+            } else {
+              unElem.parentElement.parentElement.className = "form-group has-info";
+            }
+            pwElem = document.getElementById('password');
+            if (pwElem.value == '') {
+              pwElem.parentElement.parentElement.className = "form-group has-error";
+              mainOK = false;
+            } else {
+              pwElem.parentElement.parentElement.className = "form-group has-info";
+            }
+            emElem = document.getElementById('email');
+            if (emElem.value == '') {
+              emElem.parentElement.parentElement.className = "form-group has-error";
+              mainOK = false;
+            } else {
+              emElem.parentElement.parentElement.className = "form-group has-info";
+            }
+            return mainOK;
+          }
+
+          function checkExtend() {
+            extElem = document.getElementById('extend');
+            if (extElem.value.length === 32) {
+              extElem.parentElement.parentElement.className = "form-group has-info";
+              extend = extElem.value;
+              extElem.value = '测试续期码中';
+              extElem.disabled = true;
+              testExtend();
+            }
+          }
+
+          function testKey() {
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', '/daily/api/v1.0/test/key');
+            var fd = new FormData();
+            fd.append('key', keyElem.value);
+            httpRequest.onreadystatechange = function() {
+              if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                json = JSON.parse(httpRequest.responseText);
+                console.log(json);
+                if (json['status'] === true) {
+                  keyOK = true;
+                  keyElem.parentElement.parentElement.className = "form-group has-success";
+                  keyElem.disabled = true;
+                  setInfo();
+                } else {
+                  keyElem.parentElement.parentElement.className = "form-group has-error";
+                  keyElem.disabled = false;
+                  setInfo();
+                }
+              }
+            };
+            httpRequest.send(fd);
+          }
+
+          function testExtend() {
+            if (!keyOK) {
+              extElem.value = '';
+              extElem.disabled = false;
+              extElem.placeholder = '请先填写有效神秘代码再进行续期。'
+              extElem.parentElement.parentElement.className = "form-group has-error";
+              return false;
+            }
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', '/daily/api/v1.0/test/extend');
+            var fd = new FormData();
+            fd.append('extend', extend);
+            httpRequest.onreadystatechange = function() {
+              if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                json = JSON.parse(httpRequest.responseText);
+                console.log(json);
+                if (json['status'] === true) {
+                  extElem.value = '';
+                  extElem.placeholder = '续期码有效!续期中!'
+                  extElem.parentElement.parentElement.className = "form-group has-success";
+                  doExtend();
+                } else {
+                  extElem.value = '';
+                  extElem.placeholder = '续期失败, 请检查续期码是否输入正确。'
+                  extElem.disabled = false;
+                  extElem.parentElement.parentElement.className = "form-group has-error";
+                }
+              }
+            };
+            httpRequest.send(fd);
+          }
+
+          function testLogin() {
+            unElem = document.getElementById('username');
+            pwElem = document.getElementById('password');
+            upmsgElem = document.getElementById('upmsg');
+            if (unElem.value == '' || pwElem.value == '' || !keyOK)
+              return false;
+            unElem.disabled = true;
+            pwElem.disabled = true;
+            upmsgElem.innerText = '测试登陆中...';
+            doLogin();
+          }
+
+          function testEMail() {
+            emailElem = document.getElementById('email');
+            emmsgElem = document.getElementById('emmsg');
+            if (emailElem.value == '' || !keyOK)
+              return false;
+            emailElem.disabled = true;
+            emmsg.innerText = '测试邮箱中...';
+            doEmail();
+          }
+
+          function doLogin() {
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', '/daily/api/v1.0/test/login');
+            var fd = new FormData();
+            fd.append('key', key);
+            fd.append('username', unElem.value);
+            fd.append('password', pwElem.value);
+            httpRequest.onreadystatechange = function() {
+              if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                json = JSON.parse(httpRequest.responseText);
+                console.log(json);
+                if (json['status'] === true) {
+                  upmsgElem.innerText = "登录测试成功! 欢迎你, 打了" + json.count + "次卡的" + json.name + "同学";
+                  unElem.parentElement.parentElement.className = "form-group has-success";
+                  pwElem.parentElement.parentElement.className = "form-group has-success";
+                  accountOK = true;
+                } else {
+                  upmsgElem.innerText = '登录测试失败, 请确认您的账号与密码能够登录我的金科院.';
+                  unElem.parentElement.parentElement.className = "form-group has-error";
+                  pwElem.parentElement.parentElement.className = "form-group has-error";
+                  unElem.disabled = false;
+                  pwElem.disabled = false;
+                }
+              }
+            };
+            httpRequest.send(fd);
+          }
+
+          function doEmail() {
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', '/daily/api/v1.0/test/email');
+            var fd = new FormData();
+            fd.append('key', key);
+            fd.append('email', emailElem.value);
+            httpRequest.onreadystatechange = function() {
+              if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                json = JSON.parse(httpRequest.responseText);
+                console.log(json);
+                if (json['status'] === true) {
+                  emmsg.innerText = "邮箱测试成功!";
+                  emailElem.parentElement.parentElement.className = "form-group has-success";
+                  emailOK = true;
+                } else {
+                  emmsg.innerText = '邮箱测试失败, 请确认您的邮箱是否正确, 或更换邮箱稍后再试.';
+                  emailElem.parentElement.parentElement.className = "form-group has-error";
+                  emailElem.disabled = false;
+                }
+              }
+            };
+            httpRequest.send(fd);
+          }
+
+          function setInfo() {
+            document.getElementById('count').innerText = -1;
+            document.getElementById('email').value = "";
+            document.getElementById('username').value = "";
+            document.getElementById('password').value = "";
+            if (!keyOK)
+              return false;
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', '/daily/api/v1.0/settings/get');
+            var fd = new FormData();
+            fd.append('key', keyElem.value);
+            httpRequest.send(fd);
+            httpRequest.onreadystatechange = function() {
+              if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                json = JSON.parse(httpRequest.responseText);
+                console.log(json);
+                document.getElementById('count').innerText = json.counts;
+                document.getElementById('email').value = json.email;
+                document.getElementById('username').value = json.username;
+                if (json.report.DZ_SFYC == "YES") {
+                  document.getElementById('DZ_SFYC-1').checked = true;
+                  document.getElementById('DZ_SFYC-2').checked = false;
+                } else {
+                  document.getElementById('DZ_SFYC-1').checked = false;
+                  document.getElementById('DZ_SFYC-2').checked = true;
+                }
+                if (json.report.DZ_NGLJKM == "1") {
+                  document.getElementById('DZ_NGLJKM-1').checked = true;
+                  document.getElementById('DZ_NGLJKM-2').checked = false;
+                  document.getElementById('DZ_NGLJKM-3').checked = false;
+                } else if (json.report.DZ_NGLJKM == "2") {
+                  document.getElementById('DZ_NGLJKM-1').checked = false;
+                  document.getElementById('DZ_NGLJKM-2').checked = true;
+                  document.getElementById('DZ_NGLJKM-3').checked = false;
+                } else {
+                  document.getElementById('DZ_NGLJKM-1').checked = false;
+                  document.getElementById('DZ_NGLJKM-2').checked = false;
+                  document.getElementById('DZ_NGLJKM-3').checked = true;
+                }
+                if (json.report.DZ_SFQGNJYWCS == "YES") {
+                  document.getElementById('DZ_SFQGNJYWCS-1').checked = true;
+                  document.getElementById('DZ_SFQGNJYWCS-2').checked = false;
+                } else {
+                  document.getElementById('DZ_SFQGNJYWCS-1').checked = false;
+                  document.getElementById('DZ_SFQGNJYWCS-2').checked = true;
+                }
+                document.getElementById('DZ_ZJMYD').value = json.report.DZ_ZJMYD
+                if (json.report.DZ_SFZNJ == "YES") {
+                  document.getElementById('DZ_SFZNJ-1').checked = true;
+                  document.getElementById('DZ_SFZNJ-2').checked = false;
+                } else {
+                  document.getElementById('DZ_SFZNJ-1').checked = false;
+                  document.getElementById('DZ_SFZNJ-2').checked = true;
+                }
+                if (json.report.DZ_CRSFFX == "YES") {
+                  document.getElementById('DZ_CRSFFX-1').checked = true;
+                  document.getElementById('DZ_CRSFFX-2').checked = false;
+                } else {
+                  document.getElementById('DZ_CRSFFX-1').checked = false;
+                  document.getElementById('DZ_CRSFFX-2').checked = true;
+                }
+              }
+            };
+          }
+
+          function doExtend() {
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open('POST', '/daily/api/v1.0/settings/extend');
+            var fd = new FormData();
+            fd.append('key', key);
+            fd.append('extend', extend);
+            httpRequest.onreadystatechange = function() {
+              if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                json = JSON.parse(httpRequest.responseText);
+                console.log(json);
+                if (json['status'] === true) {
+                  extElem.value = '';
+                  extElem.placeholder = '续期成功!'
+                  extElem.disabled = false;
+                  extElem.parentElement.parentElement.className = "form-group has-success";
+                  setInfo();
+                } else {
+                  extElem.value = '';
+                  extElem.placeholder = '续期失败... 推荐再试一下 QwQ'
+                  extElem.disabled = false;
+                  extElem.parentElement.parentElement.className = "form-group has-error";
+                }
+              }
+            };
+            httpRequest.send(fd);
+          }
+
+          document.getElementById('key').value = getQueryVariable("key");
+          key = document.getElementById('key').value;
+          extend = '';
+          keyOK = false;
+          accountOK = false;
+          mainOK = false;
+          emailOK = false;
+          checkKey();
+        </script>
+  </body>
+
+</html>

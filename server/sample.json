@@ -1,0 +1,19 @@
+{
+  "username": "",
+  "password": "",
+  "email": "",
+  "report": {
+    "DZ_SFYC": "NO",
+    "DZ_SFYC_DISPLAY": "否",
+    "DZ_NGLJKM": "1",
+    "DZ_NGLJKM_DISPLAY": "绿色",
+    "DZ_SFQGNJYWCS": "YES",
+    "DZ_SFQGNJYWCS_DISPLAY": "是",
+    "DZ_ZJMYD": "南京市",
+    "DZ_CRSFFX": "NO",
+    "DZ_CRSFFX_DISPLAY": "否",
+    "DZ_SFZNJ": "YES",
+    "DZ_SFZNJ_DISPLAY": "是"
+  },
+  "counts": 5
+}

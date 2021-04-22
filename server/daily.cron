@@ -1,0 +1,1 @@
+0 7 * * * /usr/bin/python3 /root/dailyd.py >>/root/dailyd.out 2>&1

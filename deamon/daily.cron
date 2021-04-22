@@ -1,0 +1,1 @@
+0 7 * * * python3 /app/dailyd.py >>/app/out/dailyd.out 2>&1
